@@ -4,7 +4,7 @@ from typing import Union, Tuple
 
 def signum(x):
     if x < 0:
-        return - 1
+        return -1
     return 1
 
 
@@ -124,7 +124,9 @@ class VirtualBot(Robot):
         self.gripper_motor.power = 0
 
     def find_marker(self, code: int, markers=None):
-        """Returns the marker object that has the given code if not returns None.
+        """Returns the marker object that has the given code if not returns
+        None.
+
         The list of markers can be given if not R.see() will be used.
         """
         if markers == None:
@@ -136,9 +138,12 @@ class VirtualBot(Robot):
 
     def turn_to_marker(self, code: int, epsilon: int = 2):
         """Turns to the marker of the given code and returns its object.
-        Returns None if the cube cannot be seen.
-        Epsilon is the accuracy at which the robot should be facing the marker at.
-        e.g. When epsilon is 1 the angle the robot is facing when this function exits will be less than 1 but greater than -1."""
+
+        Returns None if the cube cannot be seen. Epsilon is the accuracy
+        at which the robot should be facing the marker at. e.g. When
+        epsilon is 1 the angle the robot is facing when this function
+        exits will be less than 1 but greater than -1.
+        """
         m = self.find_marker(code)
         if m is None:
             print(f"ERROR: Cannot see marker {code}")
@@ -150,12 +155,14 @@ class VirtualBot(Robot):
                 print(f"ERROR: Can no longer see marker {code}")
                 return None
         return m
-    
+
     def turncont(self, power):
         self.setDriveMotors((power, -power))
 
     def find_markers(self, codes: list, markers=None):
-        """Returns the marker object that has the given code if not returns None.
+        """Returns the marker object that has the given code if not returns
+        None.
+
         The list of markers can be given if not R.see() will be used.
         """
         output = []
@@ -166,9 +173,15 @@ class VirtualBot(Robot):
                 output.append(m)
         return output
 
-    def seek_markersss(self, codes: list, power: int = 10, repeats: int = None, interval: float = 0.02):
-        """Turns until the marker is found. Power to turn at and number of turns can be given.
-        If repeats is None it will keep going forever until the marker is found.
+    def seek_markersss(self,
+                       codes: list,
+                       power: int = 10,
+                       repeats: int = None,
+                       interval: float = 0.02):
+        """Turns until the marker is found.
+
+        Power to turn at and number of turns can be given. If repeats is
+        None it will keep going forever until the marker is found.
         """
         m = self.find_markers(codes)
         while not m:
@@ -179,14 +192,21 @@ class VirtualBot(Robot):
                 repeats -= 1
                 if repeats <= 0:
                     print(
-                        f"ERROR: Could not find marker {code} with in alloted steps")
+                        f"ERROR: Could not find marker {code} with in alloted steps"
+                    )
                     break
             m = self.find_markers(codes)
         return m
 
-    def seek_marker(self, code: int, power: int = 10, repeats: int = None, interval: float = 0.02):
-        """Turns until the marker is found. Power to turn at and number of turns can be given.
-        If repeats is None it will keep going forever until the marker is found.
+    def seek_marker(self,
+                    code: int,
+                    power: int = 10,
+                    repeats: int = None,
+                    interval: float = 0.02):
+        """Turns until the marker is found.
+
+        Power to turn at and number of turns can be given. If repeats is
+        None it will keep going forever until the marker is found.
         """
         m = self.find_marker(code)
         while m is None:
@@ -197,14 +217,23 @@ class VirtualBot(Robot):
                 repeats -= 1
                 if repeats <= 0:
                     print(
-                        f"ERROR: Could not find marker {code} with in alloted steps")
+                        f"ERROR: Could not find marker {code} with in alloted steps"
+                    )
                     break
             m = self.find_marker(code)
         return m
 
-    def drive_to_marker(self, code: int, dist: float = 0.3, power: int = 10, interval: float = 0.2, epsilon: int = 2):
-        """Drives straight towards a marker of the given code and stops a given distance away.
-        interval is the time between checking if the robot is facing the marker and driving.
+    def drive_to_marker(self,
+                        code: int,
+                        dist: float = 0.3,
+                        power: int = 10,
+                        interval: float = 0.2,
+                        epsilon: int = 2):
+        """Drives straight towards a marker of the given code and stops a given
+        distance away.
+
+        interval is the time between checking if the robot is facing the
+        marker and driving.
         """
         m = self.turn_to_marker(code, epsilon=epsilon)
         if m is None:
@@ -218,7 +247,7 @@ class VirtualBot(Robot):
                 return m
         print(f"Done, {m.dist}m away")
         return m
-    
+
     def shuffle(self, time):
         self.setDriveMotors(50)
         self.sleep(time)
